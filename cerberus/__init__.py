@@ -1,24 +1,19 @@
 """
     Extensible validation for Python dictionaries.
 
-    :copyright: 2012-2016 by Nicola Iarocci.
+    :copyright: 2012-2015 by Nicola Iarocci.
     :license: ISC, see LICENSE for more details.
 
-    Full documentation is available at http://python-cerberus.org/
+    Full documentation is available at http://cerberus.readthedocs.org/
 
 """
 
-from .cerberus import Validator, DocumentError
-from .schema import rules_set_registry, schema_registry, Registry, SchemaError
+from .cerberus import Validator, ValidationError, SchemaError
 
-
-__version__ = "1.0rc"
+__version__ = "0.9.2"
 
 __all__ = [
-    DocumentError.__name__,
-    Registry.__name__,
-    SchemaError.__name__,
     Validator.__name__,
-    'schema_registry',
-    'rules_set_registry'
+    ValidationError.__name__,
+    SchemaError.__name__
 ]
