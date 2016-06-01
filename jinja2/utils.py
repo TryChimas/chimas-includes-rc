@@ -203,7 +203,7 @@ def urlize(text, trim_url_limit=None, nofollow=False, target=None):
     words = _word_split_re.split(text_type(escape(text)))
     nofollow_attr = nofollow and ' rel="nofollow"' or ''
     if target is not None and isinstance(target, string_types):
-        target_attr = ' target="%s"' % escape(target)
+        target_attr = ' target="%s"' % target
     else:
         target_attr = ''
     for i, word in enumerate(words):
@@ -295,7 +295,7 @@ def unicode_urlencode(obj, charset='utf-8', for_qs=False):
         obj = text_type(obj)
     if isinstance(obj, text_type):
         obj = obj.encode(charset)
-    safe = not for_qs and b'/' or b''
+    safe = for_qs and b'' or b'/'
     rv = text_type(url_quote(obj, safe))
     if for_qs:
         rv = rv.replace('%20', '+')

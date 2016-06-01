@@ -28,7 +28,6 @@ from pymongo.errors import (CursorNotFound,
                             ExecutionTimeout,
                             NotMasterError,
                             OperationFailure,
-                            ProtocolError,
                             WriteError,
                             WriteConcernError,
                             WTimeoutError)
@@ -107,8 +106,7 @@ def _unpack_response(response, cursor_id=None, codec_options=CodecOptions()):
     response_flag = struct.unpack("<i", response[:4])[0]
     if response_flag & 1:
         # Shouldn't get this response if we aren't doing a getMore
-        if cursor_id is None:
-            raise ProtocolError("No cursor id for getMore operation")
+        assert cursor_id is not None
 
         # Fake a getMore command response. OP_GET_MORE provides no document.
         msg = "Cursor not found, cursor id: %d" % (cursor_id,)

@@ -195,17 +195,13 @@ class MongoClient(common.BaseObject):
 
           - `ssl`: If ``True``, create the connection to the server using SSL.
             Defaults to ``False``.
-          - `ssl_certfile`: The certificate file used to identify the local
-            connection against mongod. Implies ``ssl=True``. Defaults to
-            ``None``.
           - `ssl_keyfile`: The private keyfile used to identify the local
             connection against mongod.  If included with the ``certfile`` then
             only the ``ssl_certfile`` is needed.  Implies ``ssl=True``.
             Defaults to ``None``.
-          - `ssl_pem_passphrase`: The password or passphrase for decrypting
-            the private key in ``ssl_certfile`` or ``ssl_keyfile``. Only
-            necessary if the private key is encrypted. Only supported by python
-            2.7.9+ (pypy 2.5.1+) and 3.3+. Defaults to ``None``.
+          - `ssl_certfile`: The certificate file used to identify the local
+            connection against mongod. Implies ``ssl=True``. Defaults to
+            ``None``.
           - `ssl_cert_reqs`: Specifies whether a certificate is required from
             the other side of the connection, and whether it will be validated
             if provided. It must be one of the three values ``ssl.CERT_NONE``
@@ -222,9 +218,6 @@ class MongoClient(common.BaseObject):
             "certification authority" certificates, which are used to validate
             certificates passed from the other end of the connection.
             Implies ``ssl=True``. Defaults to ``None``.
-          - `ssl_crlfile`: The path to a PEM or DER formatted certificate
-            revocation list. Only supported by python 2.7.9+ (pypy 2.5.1+)
-            and 3.4+. Defaults to ``None``.
           - `ssl_match_hostname`: If ``True`` (the default), and
             `ssl_cert_reqs` is not ``ssl.CERT_NONE``, enables hostname
             verification using the :func:`~ssl.match_hostname` function from
@@ -846,8 +839,8 @@ class MongoClient(common.BaseObject):
                 else:
                     return 'document_class=%s.%s' % (value.__module__,
                                                      value.__name__)
-            if option in common.TIMEOUT_VALIDATORS and value is not None:
-                return "%s=%s" % (option, int(value * 1000))
+            if "ms" in option:
+                return "%s='%s'" % (option, int(value * 1000))
 
             return '%s=%r' % (option, value)
 
